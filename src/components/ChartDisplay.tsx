@@ -1,8 +1,8 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
+import { AnalysisSection } from '../types';
 interface ChartDisplayProps {
-  data: any;
+  data: AnalysisSection;
 }
 
 const ChartDisplay: React.FC<ChartDisplayProps> = ({ data }) => {

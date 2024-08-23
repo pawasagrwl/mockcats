@@ -1,9 +1,63 @@
-export function processHTMLFile(htmlContent: string) {
+import { Result, Analysis, ProcessedData } from "./types";
+
+// utils.ts
+
+export function processHTMLFile(htmlContent: string): ProcessedData {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlContent, "text/html");
 
-  const result = { varc: {}, dilr: {}, qa: {} };
-  const analysis = { varc: {}, dilr: {}, qa: {}, overall: {} };
+  const result: Result = { varc: {}, dilr: {}, qa: {} };
+  const analysis: Analysis = {
+    // Make sure this matches the Analysis type
+    varc: {
+      questions: 0,
+      timeTaken: "",
+      attempted: "",
+      correct: "",
+      incorrect: "",
+      skipped: "",
+      score: 0,
+      accuracy: 0,
+      percentile: 0,
+      benchmarkScore: 0,
+    },
+    dilr: {
+      questions: 0,
+      timeTaken: "",
+      attempted: "",
+      correct: "",
+      incorrect: "",
+      skipped: "",
+      score: 0,
+      accuracy: 0,
+      percentile: 0,
+      benchmarkScore: 0,
+    },
+    qa: {
+      questions: 0,
+      timeTaken: "",
+      attempted: "",
+      correct: "",
+      incorrect: "",
+      skipped: "",
+      score: 0,
+      accuracy: 0,
+      percentile: 0,
+      benchmarkScore: 0,
+    },
+    overall: {
+      questions: 0,
+      timeTaken: "",
+      attempted: "",
+      correct: "",
+      incorrect: "",
+      skipped: "",
+      score: 0,
+      accuracy: 0,
+      percentile: 0,
+      benchmarkScore: 0,
+    },
+  };
 
   function formatTime(timeString: string) {
     const digits = timeString.replace(/\D/g, "");
@@ -11,7 +65,7 @@ export function processHTMLFile(htmlContent: string) {
     return paddedDigits.replace(/(\d{2})(\d{2})(\d{2})/, "$1:$2:$3");
   }
 
-  function processDiv(divId: string, dictName: string) {
+  function processDiv(divId: string, dictName: keyof Result) {
     const div = doc.getElementById(divId);
     if (!div) return;
 
@@ -40,7 +94,12 @@ export function processHTMLFile(htmlContent: string) {
     if (!allDiv) return;
 
     const rows = allDiv.querySelectorAll("table tbody tr");
-    const sectionMap = { 0: "varc", 1: "dilr", 2: "qa", 3: "overall" };
+    const sectionMap: { [key: number]: keyof Analysis } = {
+      0: "varc",
+      1: "dilr",
+      2: "qa",
+      3: "overall",
+    };
 
     rows.forEach((row, index) => {
       const cells = row.querySelectorAll("td");
