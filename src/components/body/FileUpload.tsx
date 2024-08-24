@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { processHTMLFile } from "../utils";
-import { ProcessedData } from "../types";
+import { processHTMLFile } from "../../utils";
+import { ProcessedData } from "../../types";
 
 interface FileUploadProps {
   data: ProcessedData | null;
